@@ -52,33 +52,7 @@
             <br>
             <br>
 
-            <div class="tablaPersonajes m-auto pt-2">
-
-                <table class="table table-striped table-bordered text-center">
-                    <thead>
-                        <tr class="table-info">
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Origen</th>
-                            <th scope="col">Habilidad</th>
-                            <th scope="col">Aliados</th>
-                            <th scope="col">Mision Completada</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr class="tabla-personajes" v-for="(personaje, index) in arrayPersonajes" :key="index">
-                            <th scope="row" v-html="index+1"></th>
-                            <td v-html="personaje.nombre"></td>
-                            <td v-html="personaje.origen"></td>
-                            <td v-html="personaje.habilidades"></td>
-                            <td v-html="personaje.aliados"></td>
-                            <td v-html="personaje.mision"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
+            <TableArcane :listaPersonajes="arrayPersonajes"/>
         </div>
     </main>
 </template>
@@ -91,55 +65,44 @@
     import 'bootstrap/dist/js/bootstrap.bundle.min.js';
     //Import de mi clase Personaje
     import Personaje from '../models/Personaje.js';
+    //Import del componente TableArcane
+    import TableArcane from './TableArcane.vue';
+
     export default defineComponent({
-        name: 'FromArcane',
 
-        data(){
+    name: 'FromArcane',
 
-            //let personajeEjemplo = new Personaje("nombre", "origen", "habilidad", "aliados", "mision-si");
-            let arrayPersonajes = [
-            
-            ];
-
-            return {
-                nombre: '',
-                origen: 'Runaterra',
-                habilidad: '',
-                listaAliados: '',
-                misionSi: false,
-                //personajeEjemplo,
-                arrayPersonajes,
+    data() {
+        //let personajeEjemplo = new Personaje("nombre", "origen", "habilidad", "aliados", "mision-si");
+        let arrayPersonajes = [];
+        return {
+            nombre: '',
+            origen: 'Runaterra',    
+            habilidad: '',
+            listaAliados: '',
+            misionSi: false,
+            //personajeEjemplo,
+            arrayPersonajes,
+        };
+    },
+    methods: {
+        saveData() {
+            if (this.nombre === "" || this.origen === "" || this.habilidad === "" || this.listaAliados === "") {
+                alert("Rellene todos los campos para guardar");
+                return;
             }
-        },
-
-        methods: {
-            saveData() {
-                
-                if (this.nombre === "" || this.origen === "" || this.habilidad === "" || this.listaAliados === "") {
-                    alert("Rellene todos los campos para guardar");
-                    return;
-                }
-
-                let personajeNuevo = new Personaje(
-                    this.nombre,
-                    this.origen,
-                    this.habilidad,
-                    this.listaAliados,
-                    this.misionSi ? "Sí" : "No"
-                );
-
-                // Agregar el personaje al array
-                this.arrayPersonajes.push(personajeNuevo);
-
-                // Vaciar el formulario
-                this.nombre = '';
-                this.origen = 'Runaterra';
-                this.habilidad = '';
-                this.listaAliados = '';
-                this.misionSi = false;
-            }
-
-        },
+            let personajeNuevo = new Personaje(this.nombre, this.origen, this.habilidad, this.listaAliados, this.misionSi ? "Sí" : "No");
+            // Agregar el personaje al array
+            this.arrayPersonajes.push(personajeNuevo);
+            // Vaciar el formulario
+            this.nombre = '';
+            this.origen = 'Runaterra';
+            this.habilidad = '';
+            this.listaAliados = '';
+            this.misionSi = false;
+        }
+    },
+    components: { TableArcane }
 });
 </script>
 
